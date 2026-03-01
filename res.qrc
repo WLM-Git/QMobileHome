@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ImageResources/01.png</file>
+        <file>ImageResources/02.png</file>
+        <file>ImageResources/03.png</file>
+        <file>ImageResources/04.png</file>
+        <file>ImageResources/05.png</file>
+        <file>ImageResources/06.png</file>
+        <file>ImageResources/07.png</file>
+        <file>ImageResources/08.png</file>
+        <file>ImageResources/09.png</file>
+        <file>ImageResources/10.png</file>
+        <file>ImageResources/11.png</file>
+        <file>ImageResources/12.png</file>
+        <file>ImageResources/13.png</file>
+        <file>ImageResources/background.png</file>
+        <file>ImageResources/delete_item.png</file>
+        <file>ImageResources/showDel_finished.png</file>
+    </qresource>
+</RCC>
