@@ -14,7 +14,7 @@ public:
     void SetAppImage(const QString &imgUrl);
     void SetTitle(const QString &titleNmae);
     void SetAppIndex(int index);
-    void SetDeleteButtonHidden(bool isHidden);
+    void SetDeleteButtonHidden(bool flag);
     void ShowAnimationOnWidget();
 private:
     void loadAppWidget();
@@ -27,6 +27,7 @@ private:
     QLabel* m_pTitleLabel;
     QPushButton* m_pDeleteButton;
 signals:
+    void LongPressShowDeleteButtonSignal();
 };
 
 #endif // APPWIDGET_H

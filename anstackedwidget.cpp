@@ -10,9 +10,23 @@ ANStackedWidget::ANStackedWidget(QWidget *parent)
     m_nCurrentIndex = 0;
     m_nNextIndex = 0;
     m_accMoveDistance = 0;
+
     int pageCount = 3;
     CreatePageWidgetWithCount(pageCount);
 
+    m_pAnimateTimer = new QTimer(this);
+    connect(m_pAnimateTimer,&QTimer::timeout,this,&ANStackedWidget::OnAnimationTimerEvent);
+
+    m_pFinishButton = new QPushButton(this);
+    m_pFinishButton->setGeometry(STACKWIDGET_WIDTH-85,0,80,30);
+    m_pFinishButton->setIcon(QIcon(":/ImageResources/showDel_finished.png"));
+    m_pFinishButton->setIconSize(QSize(80,30));
+    m_pFinishButton->setAutoFillBackground(true);
+    m_pFinishButton->setFlat(true);
+    m_pFinishButton->setStyleSheet("QPushButton{background: transparent;}");
+    m_pFinishButton->setHidden(true);
+
+    connect(m_pFinishButton,&QPushButton::clicked,this,&ANStackedWidget::OnHideDeleteButton);
 }
 
 void ANStackedWidget::CreatePageWidgetWithCount(int count)
@@ -26,31 +40,8 @@ void ANStackedWidget::CreatePageWidgetWithCount(int count)
         frameWidget->setGeometry(0,0,STACKWIDGET_WIDTH,STACKWIDGET_HEIGHT);
         connect(frameWidget,&FrameWidget::mouseMoveDistanceOnStackFrame,this,&ANStackedWidget::OnMouseMoveOnStackFrame);
         connect(frameWidget,&FrameWidget::mouseReleaseOnStackFrame,this,&ANStackedWidget::OnMouseReleaseOnStackFrame);
+        connect(frameWidget,&FrameWidget::LongPressShowAllDeleteButtonSignal,this,&ANStackedWidget::OnLongPressShowAllDeleteButton);
         QPalette pal = frameWidget->palette();
-        switch (i) {
-        case 0:
-            frameWidget->setAutoFillBackground(true);
-            pal.setColor(QPalette::Window,Qt::red);
-            frameWidget->setPalette(pal);
-            break;
-        case 1:
-            frameWidget->setAutoFillBackground(true);
-            pal.setColor(QPalette::Window,Qt::yellow);
-            frameWidget->setPalette(pal);
-            break;
-        case 2:
-            frameWidget->setAutoFillBackground(true);
-            pal.setColor(QPalette::Window,Qt::blue);
-            frameWidget->setPalette(pal);
-            break;
-        case 3:
-            frameWidget->setAutoFillBackground(true);
-            pal.setColor(QPalette::Window,Qt::green);
-            frameWidget->setPalette(pal);
-            break;
-        default:
-            break;
-        }
 
         if(i == 0)
             frameWidget->setHidden(false);
@@ -213,5 +204,64 @@ void ANStackedWidget::OnMouseMoveOnStackFrame(float diffPos)
 void ANStackedWidget::OnMouseReleaseOnStackFrame()
 {
     finishDrwAnimation();
+}
+
+//显示所有App的删除按钮
+void ANStackedWidget::OnLongPressShowAllDeleteButton()
+{
+    if(m_stackFrameList.count()<=0)
+        return;
+    //拿出每一个页面，并将其设置删除按钮抖动
+    for(int i = 0;i<m_stackFrameList.count();i++)
+    {
+        FrameWidget* frameWidget = m_stackFrameList.at(i);
+        if(frameWidget != nullptr)
+        {
+            //将frameWidget设置删除按钮显示
+            frameWidget->ShowAllDeleteButtons();
+            frameWidget->IsShowingDelBtnTrigger(true);
+        }
+    }
+    if(m_pAnimateTimer != nullptr)
+    {
+        m_pAnimateTimer->start(100);
+    }
+    m_pFinishButton->setHidden(false);
+}
+
+void ANStackedWidget::OnAnimationTimerEvent()
+{
+    if(m_stackFrameList.count()<=0)
+        return;
+    for(int i = 0;i<m_stackFrameList.count();i++)
+    {
+        FrameWidget* frameWidget = m_stackFrameList.at(i);
+        if(frameWidget!=nullptr)
+        {
+            frameWidget->ShowAnimatingAfterLongPress();
+        }
+    }
+}
+
+void ANStackedWidget::OnHideDeleteButton()
+{
+    if(m_stackFrameList.count()<=0)
+        return;
+    //拿出每一个页面，并将其设置删除按钮抖动
+    for(int i = 0;i<m_stackFrameList.count();i++)
+    {
+        FrameWidget* frameWidget = m_stackFrameList.at(i);
+        if(frameWidget != nullptr)
+        {
+            //将frameWidget设置删除按钮显示
+            frameWidget->HideAllDeleteButtons();
+            frameWidget->IsShowingDelBtnTrigger(false);
+        }
+    }
+    if(m_pAnimateTimer != nullptr)
+    {
+        m_pAnimateTimer->stop();
+    }
+    m_pFinishButton->setHidden(true);
 }
 

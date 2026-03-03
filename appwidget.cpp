@@ -30,11 +30,11 @@ void AppWidget::SetAppIndex(int index)
     m_nAppIndex = index;
 }
 
-void AppWidget::SetDeleteButtonHidden(bool isHidden)
+void AppWidget::SetDeleteButtonHidden(bool flag)
 {
-    if(m_pDeleteButton->isHidden())
+    if(m_pDeleteButton->isHidden() == flag)
         return;
-    m_pDeleteButton->setHidden(true);
+    m_pDeleteButton->setHidden(flag);
 }
 
 void AppWidget::ShowAnimationOnWidget()
@@ -66,6 +66,7 @@ void AppWidget::loadAppWidget()
     m_pSubjectWidget->setStyleSheet("background-color: rgba(0,0,0,0)");
 
     m_pAppButton = new ImageButton(m_pSubjectWidget);
+    connect(m_pAppButton,&ImageButton::longPressAppButtonSignal,this,&AppWidget::LongPressShowDeleteButtonSignal);
     m_pAppButton->move(10,10);
     m_pAppButton->setFixedSize(QSize(IMAGEBUTTON_WIDTH,IMAGEBUTTON_HEIGHT));
     m_pAppButton->setIconSize(QSize(IMAGEBUTTON_WIDTH,IMAGEBUTTON_HEIGHT));
