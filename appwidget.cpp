@@ -78,6 +78,9 @@ void AppWidget::loadAppWidget()
     m_pTitleLabel->setText("");
 
     m_pDeleteButton = new QPushButton(m_pSubjectWidget);
+    connect(m_pDeleteButton,&QPushButton::clicked,this,[this](){
+        emit deleteAppWidgetSignal(this);
+    });
     m_pDeleteButton->move(0,0);
     m_pDeleteButton->setFixedSize(QSize(DELETEBUTTON_WIDTH,DELETEBUTTON_HEIGHT));
     m_pDeleteButton->setIcon(QIcon(":/ImageResources/delete_item.png"));

@@ -34,6 +34,9 @@ signals:
     void mouseMoveDistanceOnStackFrame(float);
     void mouseReleaseOnStackFrame();
     void LongPressShowAllDeleteButtonSignal();
+
+private slots:
+    void OnAppWidgetDelete(AppWidget*appWidgetPtr);
 };
 
 #endif // FRAMEWIDGET_H

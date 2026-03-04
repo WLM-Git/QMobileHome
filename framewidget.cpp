@@ -113,6 +113,7 @@ void FrameWidget::createNewAppButton(QString filePath)
     //生产一个AppWidget
     AppWidget* appWidget = new AppWidget(this);
     connect(appWidget,&AppWidget::LongPressShowDeleteButtonSignal,this,&FrameWidget::LongPressShowAllDeleteButtonSignal);
+    connect(appWidget,&AppWidget::deleteAppWidgetSignal,this,&FrameWidget::OnAppWidgetDelete);
     appWidget->setGeometry(0,0,APPBUTTON_WIDTH,APPBUTTON_HEIGHT);
     appWidget->SetAppImage(filePath);
 
@@ -164,5 +165,17 @@ void FrameWidget::refreshAppsAlignment()
             appwidget->setHidden(false);
         }
     }
+}
+
+void FrameWidget::OnAppWidgetDelete(AppWidget *appWidgetPtr)
+{
+    if(appWidgetPtr == nullptr)
+        return;
+    if(m_AppWidgetList.contains(appWidgetPtr))
+    {
+        m_AppWidgetList.removeOne(appWidgetPtr);
+    }
+    appWidgetPtr->deleteLater();
+    refreshAppsAlignment();
 }
 

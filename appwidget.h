@@ -26,6 +26,7 @@ private:
     QPushButton* m_pDeleteButton;
 signals:
     void LongPressShowDeleteButtonSignal();
+    void deleteAppWidgetSignal(AppWidget*);
 };
 
 #endif // APPWIDGET_H
