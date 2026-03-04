@@ -25,11 +25,6 @@ void AppWidget::SetTitle(const QString &titleNmae)
     m_pTitleLabel->setText(titleNmae);
 }
 
-void AppWidget::SetAppIndex(int index)
-{
-    m_nAppIndex = index;
-}
-
 void AppWidget::SetDeleteButtonHidden(bool flag)
 {
     if(m_pDeleteButton->isHidden() == flag)

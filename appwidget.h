@@ -13,12 +13,10 @@ public:
     explicit AppWidget(QWidget *parent = nullptr);
     void SetAppImage(const QString &imgUrl);
     void SetTitle(const QString &titleNmae);
-    void SetAppIndex(int index);
     void SetDeleteButtonHidden(bool flag);
     void ShowAnimationOnWidget();
 private:
     void loadAppWidget();
-    int m_nAppIndex;
     bool m_aniStatus;
 
 private:

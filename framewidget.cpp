@@ -162,7 +162,6 @@ void FrameWidget::refreshAppsAlignment()
             int YMove = ALIGNMENT_Y_BORDER + YStep*(APPBUTTON_HEIGHT + ALIGNMENT_Y_BORDER);
             appwidget->move(XMove,YMove);
             appwidget->setHidden(false);
-            appwidget->SetAppIndex(i);
         }
     }
 }
